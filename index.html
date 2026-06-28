@@ -1259,7 +1259,7 @@
     /* Floating bar */
     .floating-bar { padding: 12px 16px; gap: 12px; }
     .floating-bar p { display: none; }
-    .floating-bar .btn-small { flex: 1; text-align: center; justify-content: center; padding: 13px 16px; font-size: 15px; }
+    .floating-bar .btn-small { flex: none; text-align: center; justify-content: center; padding: 11px 28px; font-size: 15px; }
 
     /* Pain bridge */
     .pain-bridge { padding: 20px 18px; }
@@ -1488,8 +1488,8 @@
   }
   .hero-v3-btn-main {
     background: #16a34a; color: white;
-    padding: 17px 40px; border-radius: 50px;
-    font-weight: 800; font-size: 17px;
+    padding: 13px 28px; border-radius: 50px;
+    font-weight: 800; font-size: 16px;
     text-decoration: none;
     display: inline-flex; align-items: center; gap: 10px;
     animation: glowPulse 2.5s ease-in-out infinite;
@@ -1619,14 +1619,103 @@
 
   /* Mobile hero-v3 */
   @media (max-width: 900px) {
+    /* Stack: text on top, photo strip below */
+    .hero-v3 { min-height: auto; }
     .hero-v3-grid {
       grid-template-columns: 1fr;
-      gap: 40px;
-      padding: 80px 24px 48px;
+      gap: 0;
+      padding: 70px 0 0;
     }
-    .hero-v3-right { display: none; }
-    .hero-v3-h1 { font-size: clamp(38px,9vw,56px); letter-spacing: -2px; }
-    .hero-v3-stats-grid { grid-template-columns: repeat(2,1fr); }
+
+    /* Text block */
+    .hero-v3-grid > div:first-child {
+      padding: 22px 20px 20px;
+    }
+    .hero-v3-live-badge {
+      font-size: 11.5px;
+      padding: 7px 14px;
+      margin-bottom: 14px;
+      white-space: nowrap;
+    }
+    .hero-v3-h1 {
+      font-size: clamp(34px, 9.5vw, 48px);
+      letter-spacing: -1.5px;
+      margin-bottom: 14px;
+    }
+    .hero-v3-sub {
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+      max-width: 100%;
+    }
+    .hero-v3-cta-group {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .hero-v3-btn-main {
+      width: auto;
+      font-size: 15px;
+      padding: 11px 22px;
+      animation: none;
+    }
+    .hero-v3-btn-sec {
+      text-align: center;
+      justify-content: center;
+      padding: 6px;
+      font-size: 13px;
+    }
+    .hero-v3-countdown {
+      gap: 6px;
+      flex-wrap: nowrap;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+    .hero-v3-countdown-label { font-size: 10.5px; white-space: nowrap; }
+    .hero-v3-count-boxes { gap: 4px; }
+    .hero-v3-count-box { min-width: 36px; padding: 5px 8px; border-radius: 7px; }
+    .hero-v3-count-num { font-size: 16px; }
+    .hero-v3-count-unit { font-size: 7.5px; }
+    .hero-v3-count-sep { font-size: 14px; margin-bottom: 6px; }
+    .hero-v3-award-badge { padding: 8px 16px; }
+    .hero-v3-award-badge span:last-child { font-size: 11.5px; }
+
+    /* Photo: full-width strip pinned to bottom of hero */
+    .hero-v3-right {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      overflow: hidden;
+      height: 300px;
+      margin: 0;
+    }
+    .hero-v3-photo-wrap { animation: none; width: 100%; height: 100%; justify-content: center; align-items: flex-end; }
+    .hero-v3-photo-inner {
+      width: 70%;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      height: 100%;
+    }
+    .hero-v3-photo-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: bottom center;
+    }
+
+    /* Stats */
+    .hero-v3-stats { padding: 20px 16px; }
+    .hero-v3-stats-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .hero-v3-stat-num { font-size: 28px; letter-spacing: -0.5px; }
+    .hero-v3-stat-label { font-size: 12px; margin-top: 6px; }
+    .hero-v3-stat-sub { font-size: 11px; }
+  }
+  @media (max-width: 400px) {
+    .hero-v3-h1 { font-size: 30px; }
+    .hero-v3-right { height: 240px; }
+    .hero-v3-photo-inner { width: 80%; }
   }
 
 </style>
@@ -1725,6 +1814,23 @@
           </div>
         </div>
       </div>
+
+      <script>
+        // Countdown — inline, runs immediately after elements exist in DOM
+        (function(){
+          var target = new Date('2026-09-15T00:00:00+07:00');
+          function tick(){
+            var diff = Math.max(0, target - new Date());
+            var pad = function(n){ return ('0'+Math.floor(n)).slice(-2); };
+            document.getElementById('cd-days').textContent  = pad(diff/86400000);
+            document.getElementById('cd-hours').textContent = pad((diff%86400000)/3600000);
+            document.getElementById('cd-mins').textContent  = pad((diff%3600000)/60000);
+            document.getElementById('cd-secs').textContent  = pad((diff%60000)/1000);
+          }
+          tick();
+          setInterval(tick, 1000);
+        })();
+      </script>
 
       <!-- Award badge -->
       <div class="hero-v3-award">
@@ -2372,218 +2478,6 @@
 </div>
 
 <script>
-  // ===== VINH DANH =====
-  // Populate grid and slider from hidden image store (no duplication)
-  (function() {
-    var srcs = [];
-    for (var i = 0; i < 4; i++) {
-      var el = document.getElementById('vimg' + i);
-      if (el) srcs.push(el.src);
-    }
-    var alts = ['Thủ khoa 126 điểm', '123-122 điểm', '3 học sinh 121 điểm', '4 học sinh 120 điểm'];
-    // Desktop grid
-    var gridItems = document.querySelectorAll('#vinhGrid .vinh-grid-item');
-    gridItems.forEach(function(item, i) {
-      var img = document.createElement('img');
-      img.src = srcs[i]; img.alt = alts[i];
-      item.appendChild(img);
-    });
-    // Mobile slides
-    var slides = document.querySelectorAll('#vinhTrack .vinh-slide');
-    slides.forEach(function(slide, i) {
-      var img = document.createElement('img');
-      img.src = srcs[i]; img.alt = alts[i];
-      slide.appendChild(img);
-    });
-  })();
-
-  var vinhCurrent = 0, vinhTotal = 4, vinhAuto;
-  function goSlide(n) {
-    vinhCurrent = (n + vinhTotal) % vinhTotal;
-    var track = document.getElementById('vinhTrack');
-    if (track) {
-      var slideW = track.parentElement.offsetWidth;
-      track.style.transform = 'translateX(-' + (vinhCurrent * slideW) + 'px)';
-    }
-    document.querySelectorAll('.vinh-dot').forEach(function(d, i) { d.classList.toggle('active', i === vinhCurrent); });
-  }
-  function nextSlide() { clearInterval(vinhAuto); goSlide(vinhCurrent + 1); startVinhAuto(); }
-  function prevSlide() { clearInterval(vinhAuto); goSlide(vinhCurrent - 1); startVinhAuto(); }
-  function startVinhAuto() { vinhAuto = setInterval(function(){ goSlide(vinhCurrent + 1); }, 3800); }
-  startVinhAuto();
-  window.addEventListener('resize', function() { goSlide(vinhCurrent); });
-  (function() {
-    var el = document.querySelector('.vinh-slider-outer');
-    if (!el) return;
-    var startX = 0;
-    el.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, {passive:true});
-    el.addEventListener('touchend', function(e){
-      var dx = e.changedTouches[0].clientX - startX;
-      if (Math.abs(dx) > 40) { dx < 0 ? nextSlide() : prevSlide(); }
-    }, {passive:true});
-  })();
-
-
-  window.addEventListener('scroll', function() {
-    const navbar = document.getElementById('navbar');
-    const floatingBar = document.getElementById('floatingBar');
-    if (window.scrollY > 80) {
-      navbar.classList.add('scrolled');
-      floatingBar.classList.add('visible');
-    } else {
-      navbar.classList.remove('scrolled');
-      floatingBar.classList.remove('visible');
-    }
-  });
-
-  // Intersection Observer for reveal animations
-  const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        // Animate progress bars when hero card comes into view
-        if (entry.target.id === 'prog-trigger') {
-          animateProgressBars();
-        }
-      }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(function(el) {
-    observer.observe(el);
-  });
-
-  // Progress bar animation on page load
-  function animateProgressBars() {
-    var bars = document.querySelectorAll('.prog-fill');
-    bars.forEach(function(bar) {
-      var target = getComputedStyle(bar).getPropertyValue('--target').trim();
-      bar.style.width = target;
-    });
-  }
-
-  // Animate donut chart when it comes into view
-  var donutObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        var gRing = document.getElementById('ring-green');
-        var oRing = document.getElementById('ring-orange');
-        if (gRing) gRing.style.strokeDasharray = '180 272';
-        if (oRing) oRing.style.strokeDasharray = '272 180';
-        donutObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.3 });
-  var insightSection = document.querySelector('.insight-section');
-  if (insightSection) donutObserver.observe(insightSection);
-
-  // Animate progress bars after a short delay
-  setTimeout(animateProgressBars, 800);
-
-  // Stagger reveal delays
-  document.querySelectorAll('.urgency-grid .urgency-card').forEach(function(card, i) {
-    card.style.transitionDelay = (i * 0.15) + 's';
-  });
-  document.querySelectorAll('.pain-grid .pain-card').forEach(function(card, i) {
-    card.style.transitionDelay = (i * 0.1) + 's';
-  });
-  document.querySelectorAll('.value-grid .value-card').forEach(function(card, i) {
-    card.style.transitionDelay = (i * 0.15) + 's';
-  });
-  document.querySelectorAll('.gifts-grid .gift-card').forEach(function(card, i) {
-    card.style.transitionDelay = (i * 0.12) + 's';
-  });
-  document.querySelectorAll('.advisors-grid .advisor-card').forEach(function(card, i) {
-    card.style.transitionDelay = (i * 0.1) + 's';
-  });
-  document.querySelectorAll('.pricing-cards .price-card').forEach(function(card, i) {
-    card.style.transitionDelay = (i * 0.1) + 's';
-  });
-
-  // FAQ toggle
-  function toggleFaq(el) {
-    var answer = el.nextElementSibling;
-    var isOpen = answer.classList.contains('open');
-    // Close all
-    document.querySelectorAll('.faq-answer').forEach(function(a) { a.classList.remove('open'); });
-    document.querySelectorAll('.faq-question').forEach(function(q) { q.classList.remove('open'); });
-    // Open clicked if wasn't open
-    if (!isOpen) {
-      answer.classList.add('open');
-      el.classList.add('open');
-    }
-  }
-
-  // Counter animation for stat numbers
-  function animateCounter(el, target, duration, suffix) {
-    var start = 0;
-    var startTime = null;
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      var progress = Math.min((timestamp - startTime) / duration, 1);
-      var value = Math.floor(progress * target);
-      el.textContent = value + (suffix || '');
-      if (progress < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-
-  // Animate stat band numbers when visible
-  var statObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        var nums = entry.target.querySelectorAll('.num');
-        nums.forEach(function(num) {
-          var text = num.textContent;
-          var numMatch = text.match(/\d+/);
-          if (numMatch) {
-            var val = parseInt(numMatch[0]);
-            var before = text.substring(0, text.indexOf(numMatch[0]));
-            var after = text.substring(text.indexOf(numMatch[0]) + numMatch[0].length);
-            num.innerHTML = before;
-            var span = document.createElement('span');
-            span.textContent = '0';
-            num.appendChild(span);
-            num.insertAdjacentHTML('beforeend', after.replace(/(<[^>]*>)/g, '') || '');
-            var innerSpan = num.querySelector(':first-child') || span;
-            animateCounter(span, val, 1500, '');
-          }
-        });
-        statObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.3 });
-
-  var statBand = document.querySelector('.stat-band');
-  if (statBand) statObserver.observe(statBand);
-</script>
-
-
-<script>
-
-  // ===== HERO v3 COUNTDOWN =====
-  (function() {
-    function tickCountdown() {
-      var target = new Date('2026-09-15T00:00:00+07:00');
-      var diff = Math.max(0, target - new Date());
-      var days  = Math.floor(diff / 86400000);
-      var hours = Math.floor((diff % 86400000) / 3600000);
-      var mins  = Math.floor((diff % 3600000) / 60000);
-      var secs  = Math.floor((diff % 60000) / 1000);
-      var pad = function(n){ return String(n).padStart(2,'0'); };
-      var d = document.getElementById('cd-days');
-      var h = document.getElementById('cd-hours');
-      var m = document.getElementById('cd-mins');
-      var s = document.getElementById('cd-secs');
-      if(d) d.textContent = pad(days);
-      if(h) h.textContent = pad(hours);
-      if(m) m.textContent = pad(mins);
-      if(s) s.textContent = pad(secs);
-    }
-    tickCountdown();
-    setInterval(tickCountdown, 1000);
-  })();
-
 
   // ===== VINH DANH =====
   // Populate grid and slider from hidden image store (no duplication)
@@ -2770,6 +2664,61 @@
   var statBand = document.querySelector('.stat-band');
   if (statBand) statObserver.observe(statBand);
 
+  // countdown: inline below hero section
+
+// ===== VINH DANH =====
+  // Populate grid and slider from hidden image store (no duplication)
+  (function() {
+    var srcs = [];
+    for (var i = 0; i < 4; i++) {
+      var el = document.getElementById('vimg' + i);
+      if (el) srcs.push(el.src);
+    }
+    var alts = ['Thủ khoa 126 điểm', '123-122 điểm', '3 học sinh 121 điểm', '4 học sinh 120 điểm'];
+    // Desktop grid
+    var gridItems = document.querySelectorAll('#vinhGrid .vinh-grid-item');
+    gridItems.forEach(function(item, i) {
+      var img = document.createElement('img');
+      img.src = srcs[i]; img.alt = alts[i];
+      item.appendChild(img);
+    });
+    // Mobile slides
+    var slides = document.querySelectorAll('#vinhTrack .vinh-slide');
+    slides.forEach(function(slide, i) {
+      var img = document.createElement('img');
+      img.src = srcs[i]; img.alt = alts[i];
+      slide.appendChild(img);
+    });
+  })();
+
+  var vinhCurrent = 0, vinhTotal = 4, vinhAuto;
+  function goSlide(n) {
+    vinhCurrent = (n + vinhTotal) % vinhTotal;
+    var track = document.getElementById('vinhTrack');
+    if (track) {
+      var slideW = track.parentElement.offsetWidth;
+      track.style.transform = 'translateX(-' + (vinhCurrent * slideW) + 'px)';
+    }
+    document.querySelectorAll('.vinh-dot').forEach(function(d, i) { d.classList.toggle('active', i === vinhCurrent); });
+  }
+  function nextSlide() { clearInterval(vinhAuto); goSlide(vinhCurrent + 1); startVinhAuto(); }
+  function prevSlide() { clearInterval(vinhAuto); goSlide(vinhCurrent - 1); startVinhAuto(); }
+  function startVinhAuto() { vinhAuto = setInterval(function(){ goSlide(vinhCurrent + 1); }, 3800); }
+  startVinhAuto();
+  window.addEventListener('resize', function() { goSlide(vinhCurrent); });
+  (function() {
+    var el = document.querySelector('.vinh-slider-outer');
+    if (!el) return;
+    var startX = 0;
+    el.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, {passive:true});
+    el.addEventListener('touchend', function(e){
+      var dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) { dx < 0 ? nextSlide() : prevSlide(); }
+    }, {passive:true});
+  })();
+
+
 </script>
+
 </body>
 </html>
